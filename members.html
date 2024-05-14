@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Members</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Members List</h1>
+        <ul id="members-list"></ul>
+        <button onclick="logout()">Logout</button>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadMembers();
+        });
+
+        function loadMembers() {
+            var storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+            var membersList = document.getElementById('members-list');
+            membersList.innerHTML = ''; // Clear the list before loading
+
+            storedUsers.forEach(function(user, index) {
+                var listItem = document.createElement('li');
+                
+                var userDetails = document.createElement('div');
+                userDetails.classList.add('user-details');
+                userDetails.innerHTML = `
+                    <span><strong>Name:</strong> ${user.firstname} ${user.lastname}</span>
+                    <span><strong>Username:</strong> ${user.username}</span>
+                    <span><strong>Nickname:</strong> ${user.nickname}</span>
+                    <span><strong>Phone:</strong> ${user.phone}</span>
+                    <span><strong>Password:</strong> ${user.password}</span>
+                    <span><strong>Wins:</strong> ${user.wins}</span>
+                `;
+
+                var deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.classList.add('delete-button');
+                deleteButton.onclick = function() {
+                    deleteMember(index);
+                };
+
+                listItem.appendChild(userDetails);
+                listItem.appendChild(deleteButton);
+                membersList.appendChild(listItem);
+            });
+        }
+
+        function deleteMember(index) {
+            var storedUsers = JSON.parse(localStorage.getItem('users')) || [];
+            storedUsers.splice(index, 1);
+            localStorage.setItem('users', JSON.stringify(storedUsers));
+            loadMembers(); // Reload members list after deletion
+        }
+
+        function logout() {
+            window.location.href = 'index.html'; // Redirect to login page
+        }
+    </script>
+</body>
+</html>
