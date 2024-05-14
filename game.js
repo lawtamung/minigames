@@ -13,7 +13,7 @@ let hintRevealed = false;
 
 // Function to generate a random number between 1 and 100
 function generateRandomNumber() {
-    return Math.floor(Math.random() * 2) + 1;
+    return Math.floor(Math.random() * 100) + 1;
 }
 
 // Function to save wins count to local storage
